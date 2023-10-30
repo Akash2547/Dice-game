@@ -1,52 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head> 
-	<title>jQ shopping list</title> 
-	
+	<title>Dice Game</title> 
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-	
-	
+		
+	</style>	
 </head>
 <body>
-	<h1 id="first">Shopping list</h1>
-	<input name="first">
-	
-	<div class="main">
-		<ul>
-			<li>Orange</li>
-			<li>Grapes</li>
+<script>
+	const diceVal=[[5],[1,9],[1,5,9],[1,3,7,9],[1,3,5,7,9],[1,3,4,6,7,9]];
+	const btn=document.createElement('button');
+	btn.textContent="Roll the Dice";
+	const playArea=document.createElement('div');
+	document.body.prepend(playArea);
+	playArea.append(btn);
 
-		</ul>
+	const area1=document.createElement('div');
+	const area2=document.createElement('div');
+	const container=document.createElement('div');
+	playArea.append(container);
+	container.append(area1);
+	container.append(area2);
 
-	</div>
+	area1.textContent="Dice 1";
+	area2.textContent="Dice 2";
+	addBorders(area1);
+	addBorders(area2);
 
-	<script>
-		$(document).ready(function() {
-		const btn=$('<button>Add item</button>').click(addNew);
-		$('input[name="first"]').val('Dates').after(btn); 
-		const span=$('<span>        X        </span>').click(rem);
-		$('li').append(span);
-		function rem(){
-			$(this).parent().remove();
+	btn.addEventListener('click',()=>{
+		rollValue();
+		console.log(area1.val);
+		console.log(area2.val);
+	})
+
+	function genDice(val){
+		let html='<div>';
+		let tempArr=diceVal[val];
+		for(let x=1;x<=9;x++){
+			let t='#ddd';
+			if(tempArr.includes(x)){
+				t='black';			
+			}
+			html+=`<span style="width:70px;height:70px;display:inline-block;border-radius:10px;background-color:${t};margin:2px;"></span>`;
+
 		}
+		html +='</div>';
+		return html;
+	}
 
-		function addNew(){
-			let sp=$('<span>        X        </span>').click(rem);
-			let s1=$('input[name="first"]').val();
-			let l=$(`<li>${s1}</li>`).append(sp);
-			$('.main ul').append(l);
+	function rollValue(){
+		area1.val=Math.floor(Math.random()*6);
+		area2.val=Math.floor(Math.random()*6);
+		area1.innerHTML=genDice(area1.val);
+		area2.innerHTML=genDice(area2.val);
+	}
 
-		}
-		}
-	</script>
+	function addBorders(el){
+		el.style.border='1px solid black';
+		el.style.padding='10px';
+		el.style.borderRadius='20px';
 
-
-
-
-
-
-
-		
+		el.style.fontSize='1.5em';
+		el.style.width='290px';
+		el.style.float='left';
+		el.style.height='290px';
+		el.style.backgroundColor='#ddd';
+	}
+</script>
 </body>
 </html>
